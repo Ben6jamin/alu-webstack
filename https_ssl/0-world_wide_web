@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-
 # function to print subdomain information
 print_subdomain_info() {
   # get the record type and destination IP address using dig command
