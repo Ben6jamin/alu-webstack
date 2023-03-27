@@ -1,7 +1,7 @@
 #!/bin/bash
 # This script takes a list of domains as arguments
 # and will setup a single certificate for all of them.
-
+sudo apt install certbot
 cert_name="generic_cert"
 haproxy_cert_dir="/etc/haproxy/ssl-certs"
 email="b.ishimwe1@alustudent.com"
