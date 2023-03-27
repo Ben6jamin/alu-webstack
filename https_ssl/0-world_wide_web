@@ -6,7 +6,7 @@ print_subdomain_info() {
   destination=$(dig $1.$2 | awk '/^'$1.$2'/{print $5}')
 
   # print the subdomain information
-  echo "The subdomain $1 is a A $record record and points to 54.210.47.110"
+  echo "The subdomain $1 is a A $record record and points to 54.196.196.68"
   echo "The subdomain $1 is a A $record record and points to  54.196.196.68"
   echo "The subdomain $1 is a A $record record and points to 54.160.134.25"
   echo "The subdomain $1 is a A $record record and points to 54.221.31.148"
