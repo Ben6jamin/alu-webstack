@@ -1,13 +1,14 @@
 #!/bin/bash
 # This script takes a list of domains as arguments
 # and will setup a single certificate for all of them.
-sudo apt install certbot
+sudo apt-get install -y certbot haproxy
+
 cert_name="generic_cert"
 haproxy_cert_dir="/etc/haproxy/ssl-certs"
 email="b.ishimwe1@alustudent.com"
 
 domains=""
-for domain in "www.thebenjamin.tech" "web-01.thebenjamin.tech" "web-02.thebenjamin.tech"
+for domain in "$@"
 do
   domains+="-d $domain "
 done
@@ -19,8 +20,8 @@ certbot certonly --standalone --agree-tos --non-interactive \
 
 mkdir -p $haproxy_cert_dir
 
-# Combine the certificate chain and private key and put it
-# into the correct HAProxy directory
+# Combine the certificate chain
+
 cd /etc/letsencrypt/live/$cert_name
 cat fullchain.pem privkey.pem > "$haproxy_cert_dir/cert.pem"
 
@@ -31,12 +32,11 @@ frontend www-https
   bind *:443 ssl crt /etc/haproxy/ssl-certs/cert.pem
   reqadd X-Forwarded-Proto:\ https
 
-  # Let the letsencrypt backend handle requests to the
-  # acme-challenge url
+
+
   acl letsencrypt-req path_beg /.well-known/acme-challenge/
   use_backend letsencrypt if letsencrypt-req
 
-  # ... etc.
 
   backend letsencrypt
    server letsencrypt 127.0.0.1:9785
