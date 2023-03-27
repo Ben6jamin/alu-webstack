@@ -1,0 +1,29 @@
+#!/usr/bin/env bash
+
+# function to print subdomain information
+print_subdomain_info() {
+  # get the record type and destination IP address using dig command
+  record=$(dig $1.$2 | awk '/^'$1.$2'/{print $4}')
+  destination=$(dig $1.$2 | awk '/^'$1.$2'/{print $5}')
+
+  # print the subdomain information
+  echo "The subdomain $1 is a $record record and points to $destination"
+}
+
+# check if domain parameter is provided
+if [ -z "$1" ]; then
+  echo "Error: domain parameter is mandatory"
+  exit 1
+fi
+
+# check if subdomain parameter is provided
+if [ -z "$2" ]; then
+  # if subdomain parameter is not provided, audit default subdomains
+  print_subdomain_info "www" $1
+  print_subdomain_info "lb-01" $1
+  print_subdomain_info "web-01" $1
+  print_subdomain_info "web-02" $1
+else
+  # if subdomain parameter is provided, audit the specified subdomain
+  print_subdomain_info $2 $1
+fi
