@@ -28,15 +28,3 @@ cat fullchain.pem privkey.pem > "$haproxy_cert_dir/cert.pem"
 echo "Reloading haproxy"
 sudo systemctl reload haproxy
 
-frontend www-https
-  bind *:443 ssl crt /etc/haproxy/ssl-certs/cert.pem
-  reqadd X-Forwarded-Proto:\ https
-
-
-
-  acl letsencrypt-req path_beg /.well-known/acme-challenge/
-  use_backend letsencrypt if letsencrypt-req
-
-
-  backend letsencrypt
-   server letsencrypt 127.0.0.1:9785
