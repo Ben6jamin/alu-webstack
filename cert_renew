@@ -7,7 +7,7 @@ sudo apt-get install certbot
 sudo certbot certonly --standalone -d www.thebenjamin.com
 
 frontend www-https
-   bind *:443 ssl crt /etc/letsencrypt/live/www.example.com/fullchain.pem
+   bind *:443 ssl crt /etc/letsencrypt/live/www.thebenjamin.com/fullchain.pem
    default_backend letsencrypt
 
 sudo service haproxy restart
