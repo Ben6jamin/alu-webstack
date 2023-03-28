@@ -1,0 +1,28 @@
+#!/usr/bin/env bash
+# This script takes a list of domains as arguments and will setup a single certificate for all of them.
+#sudo apt update && sudo apt upgrade -y
+sudo apt-get install -y certbot haproxy
+cert_name="generic_cert"
+haproxy_cert_dir="/etc/haproxy/ssl-certs"
+email="b.ishimwe1@alustudent.com"
+
+domains=""
+for domain in "$@"
+do
+    domains+="$domains -d $domain"
+done
+
+certbot certonly --standalone --agree-tos --non-interactive \
+    -m $email --preferred-challenges \
+    http --http-01-port 8888 --cert-name $cert_name \
+    --renew-with-new-domains --keep-until-expiring $domains
+
+mkdir -p $haproxy_cert_dir
+
+# Combine the private key and the certificate into a single file and copy it to the haproxy directory
+cd /etc/letsencrypt/live/$cert_name
+cat fullchain.pem privkey.pem > "$haproxy_cert_dir/cert_name.pem"
+
+# Restart haproxy
+echo "Restarting haproxy"
+sudo service haproxy restart
