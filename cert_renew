@@ -8,8 +8,8 @@ sudo netstat -nlp | grep :80
 
 sudo certbot certonly --standalone -d www.thebenjamin.tech
 
-frontend www-https
+frontend http
    bind *:443 ssl crt /etc/letsencrypt/live/www.thebenjamin.tech/fullchain.pem
-   default_backend letsencrypt
+   default_backend web-backend
 
 sudo service haproxy restart
