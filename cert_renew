@@ -4,10 +4,10 @@
 sudo apt-get update
 sudo apt-get install certbot
 
-sudo certbot certonly --standalone -d www.thebenjamin.com
+sudo certbot certonly --standalone -d www.thebenjamin.tech
 
 frontend www-https
-   bind *:443 ssl crt /etc/letsencrypt/live/www.thebenjamin.com/fullchain.pem
+   bind *:443 ssl crt /etc/letsencrypt/live/www.thebenjamin.tech/fullchain.pem
    default_backend letsencrypt
 
 sudo service haproxy restart
