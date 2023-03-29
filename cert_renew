@@ -4,9 +4,9 @@
 sudo apt-get install haproxy
 sudo apt-get update
 sudo apt-get install certbot
-sudo certbot certonly --standalone -d www.example.com
+sudo certbot certonly --standalone -d www.thebenjamin.tech
 frontend haproxy_inbound
-   bind *:443 ssl crt /etc/letsencrypt/live/www.example.com/fullchain.pem
+   bind *:443 ssl crt /etc/letsencrypt/live/www.thebenjamin.tech/fullchain.pem
    default_backend my_servers
 
 sudo service haproxy restart
