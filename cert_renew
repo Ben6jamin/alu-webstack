@@ -7,6 +7,6 @@ sudo apt-get install haproxy
 sudo apt-get update
 sudo apt-get install certbot
 
-sudo certbot certonly --standalone -d www.thebenjamin.com
+sudo certbot certonly --standalone -d www.thebenjamin.tech
 
 sudo service haproxy restart
