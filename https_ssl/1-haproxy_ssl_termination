@@ -35,17 +35,20 @@ defaults
 
 
 
-frontend www-https
-  bind *:443 ssl crt /etc/haproxy/ssl-certs/cert.pem
-  reqadd X-Forwarded-Proto:\ https
+backend my_servers
+        balance roundrobin
+        server 5430-web-01 54.160.134.25
+        server 5430-web-02 54.221.31.148
+frontend haproxy_inbound
+        bind *:80
+        bind *:443 ssl crt /etc/haproxy/ssl-certs/cert_name.pem
 
-  # Let the letsencrypt backend handle requests to the
-  # acme-challenge url
-  acl letsencrypt-req path_beg /.well-known/acme-challenge/
-  use_backend letsencrypt if letsencrypt-req
+        # Test URI to see if its a letsencrypt request
+        acl letsencrypt-acl path_beg /.well-known/acme-challenge/
+        use_backend letsencrypt-backend if letsencrypt-acl
+
+        default_backend my_servers
 
 
-
-backend letsencrypt
-   server letsencrypt 127.0.0.1:9785
-
+backend letsencrypt-backend
+    server letsencrypt 127.0.0.1:8888
